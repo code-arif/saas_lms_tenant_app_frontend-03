@@ -7,6 +7,7 @@ import GuestRoute from './GuestRoute';
 
 // Pages
 import LoginPage from '@/pages/auth/LoginPage';
+import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage';
 import DashboardPage from '@/pages/dashboard/DashboardPage';
 import CoursesPage from '@/pages/courses/CoursesPage';
 import InstructorsPage from '@/pages/instructors/InstructorsPage';
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
               {
                 path: 'login',
                 element: <LoginPage />,
+              },
+              {
+                path: 'forgot-password',
+                element: <ForgotPasswordPage />,
               },
             ],
           },

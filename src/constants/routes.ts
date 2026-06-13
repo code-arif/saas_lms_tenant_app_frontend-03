@@ -7,6 +7,7 @@ export const ROUTES = {
   STUDENTS: '/students',
   ANALYTICS: '/analytics',
   SUBSCRIPTION: '/subscription',
+  FORGOT_PASSWORD: '/forgot-password',
   SETTINGS: '/settings',
   BRANDING: '/settings/branding',
 } as const;

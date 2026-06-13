@@ -7,6 +7,10 @@ export const authService = {
     return api.post('/auth/tenant_admin/login', credentials);
   },
 
+  forgotPassword: async (email: string): Promise<ApiResponse> => {
+    return api.post('/auth/forgot-password', { email });
+  },
+
   getMe: async (): Promise<ApiResponse> => {
     return api.get('/auth/me');
   },

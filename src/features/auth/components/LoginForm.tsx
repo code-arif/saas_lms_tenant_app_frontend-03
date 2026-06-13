@@ -4,7 +4,9 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { ROUTES } from '@/constants/routes';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -47,9 +49,9 @@ const LoginForm = () => {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <Label htmlFor="password">Password</Label>
-          <a href="#" className="text-sm text-primary hover:underline">
+          <Link to={ROUTES.FORGOT_PASSWORD} className="text-sm text-primary hover:underline">
             Forgot password?
-          </a>
+          </Link>
         </div>
         <Input
           id="password"
