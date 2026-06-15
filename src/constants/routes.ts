@@ -10,4 +10,5 @@ export const ROUTES = {
   FORGOT_PASSWORD: '/forgot-password',
   SETTINGS: '/settings',
   BRANDING: '/settings/branding',
+  CONTACT_ADMIN: '/contact-admin',
 } as const;

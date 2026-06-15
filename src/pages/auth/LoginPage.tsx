@@ -1,6 +1,8 @@
+import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import LoginForm from '@/features/auth/components/LoginForm';
 import MagicLoginForm from '@/features/auth/components/MagicLoginForm';
+import { ROUTES } from '@/constants/routes';
 
 const LoginPage = () => {
   return (
@@ -27,9 +29,12 @@ const LoginPage = () => {
 
       <div className="text-center text-sm text-muted-foreground">
         Don't have an account?{' '}
-        <a href="#" className="text-primary hover:underline font-medium">
+        <Link 
+          to={ROUTES.CONTACT_ADMIN} 
+          className="text-primary hover:underline font-medium"
+        >
           Contact administrator
-        </a>
+        </Link>
       </div>
     </div>
   );
