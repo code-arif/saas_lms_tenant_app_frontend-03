@@ -5,6 +5,11 @@ export interface LoginCredentials {
   password?: string;
 }
 
+export interface OtpVerify {
+  email: string;
+  otp: string;
+}
+
 export interface LoginData {
   token: string;
   user: User;
