@@ -45,35 +45,38 @@ const BillingHistory = ({ invoices }: BillingHistoryProps) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {invoices.map((invoice) => (
-                  <TableRow key={invoice.uuid}>
-                    <TableCell className="whitespace-nowrap">{formatDate(invoice.created_at)}</TableCell>
-                    <TableCell className="font-medium whitespace-nowrap">{formatCurrency(invoice.amount)}</TableCell>
-                    <TableCell className="hidden sm:table-cell">
-                      <Badge variant={statusColors[invoice.status] || 'secondary'}>
-                        {invoice.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right whitespace-nowrap">
-                      {invoice.invoice_url ? (
-                        <a 
-                          href={invoice.invoice_url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline text-sm"
-                        >
-                          Download
-                        </a>
-                      ) : (
-                        <span className="text-muted-foreground text-sm">N/A</span>
-                      )}
-                      {/* Show status badge on mobile next to invoice action */}
-                      <Badge variant={statusColors[invoice.status] || 'secondary'} className="sm:hidden ml-2">
-                        {invoice.status}
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                )}
+                {invoices.map((invoice) => {
+                  return (
+                    <TableRow key={invoice.uuid}>
+                      <TableCell className="whitespace-nowrap">{formatDate(invoice.created_at)}</TableCell>
+                      <TableCell className="font-medium whitespace-nowrap">{formatCurrency(invoice.amount)}</TableCell>
+                      <TableCell className="hidden sm:table-cell">
+                        <Badge variant={statusColors[invoice.status] || 'secondary'}>
+                          {invoice.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right whitespace-nowrap">
+                        <span className="inline-flex items-center gap-2">
+                          {invoice.invoice_url ? (
+                            <a 
+                              href={invoice.invoice_url} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline text-sm"
+                            >
+                              Download
+                            </a>
+                          ) : (
+                            <span className="text-muted-foreground text-sm">N/A</span>
+                          )}
+                          <Badge variant={statusColors[invoice.status] || 'secondary'} className="sm:hidden">
+                            {invoice.status}
+                          </Badge>
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>
