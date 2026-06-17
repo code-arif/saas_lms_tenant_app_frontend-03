@@ -12,7 +12,7 @@ import EnrollmentChart from '@/features/dashboard/components/EnrollmentChart';
 import RecentActivity from '@/features/dashboard/components/RecentActivity';
 import { useDashboard, generateEnrollmentData } from '@/features/dashboard/hooks/useDashboard';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card, CardContent } from '@/components/ui/Card';
 
 const DashboardPage = () => {
   const { data: response, isLoading } = useDashboard();
@@ -65,23 +65,13 @@ const DashboardPage = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-7 gap-6">
-        <Card className="lg:col-span-4">
-          <CardHeader>
-            <CardTitle>Revenue Overview</CardTitle>
-          </CardHeader>
-          <CardContent className="h-[250px] md:h-[300px]">
-            <RevenueChart data={stats?.monthly_revenue || []} />
-          </CardContent>
-        </Card>
+        <div className="lg:col-span-4">
+          <RevenueChart data={stats?.monthly_revenue || []} />
+        </div>
 
-        <Card className="lg:col-span-3">
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <RecentActivity activities={stats?.recent_enrollments || []} />
-          </CardContent>
-        </Card>
+        <div className="lg:col-span-3">
+          <RecentActivity activities={stats?.recent_enrollments || []} />
+        </div>
       </div>
 
       <EnrollmentChart data={generateEnrollmentData()} />
