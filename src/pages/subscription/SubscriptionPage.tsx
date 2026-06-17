@@ -57,10 +57,10 @@ const SubscriptionPage = () => {
       />
 
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="plans">Plans</TabsTrigger>
-          <TabsTrigger value="billing">Billing History</TabsTrigger>
+        <TabsList className="w-full sm:w-auto overflow-x-auto flex-nowrap">
+          <TabsTrigger value="overview" className="flex-1 sm:flex-none">Overview</TabsTrigger>
+          <TabsTrigger value="plans" className="flex-1 sm:flex-none">Plans</TabsTrigger>
+          <TabsTrigger value="billing" className="flex-1 sm:flex-none">Billing History</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
@@ -69,7 +69,7 @@ const SubscriptionPage = () => {
               <div className="lg:col-span-2">
                 <CurrentPlan subscription={subscription} />
               </div>
-              <div className="space-y-4">
+              <div className="space-y-4 lg:sticky lg:top-24">
                 <div className="p-4 rounded-lg border">
                   <h3 className="font-medium mb-2">Quick Actions</h3>
                   <div className="space-y-2">

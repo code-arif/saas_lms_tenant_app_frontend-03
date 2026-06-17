@@ -15,9 +15,9 @@ const LoginPage = () => {
       </div>
 
       <Tabs defaultValue="password" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="password">Password</TabsTrigger>
-          <TabsTrigger value="otp">OTP / Magic Link</TabsTrigger>
+        <TabsList className="flex w-full">
+          <TabsTrigger value="password" className="flex-1">Password</TabsTrigger>
+          <TabsTrigger value="otp" className="flex-1">OTP / Magic Link</TabsTrigger>
         </TabsList>
         <TabsContent value="password">
           <LoginForm />

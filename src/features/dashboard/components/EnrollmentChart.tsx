@@ -19,7 +19,7 @@ const EnrollmentChart = ({ data }: EnrollmentChartProps) => {
       <CardHeader>
         <CardTitle>Enrollments (Last 30 Days)</CardTitle>
       </CardHeader>
-      <CardContent className="h-[300px]">
+      <CardContent className="h-[250px] md:h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />

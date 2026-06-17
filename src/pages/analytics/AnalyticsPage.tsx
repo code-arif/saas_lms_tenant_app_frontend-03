@@ -13,10 +13,10 @@ const AnalyticsPage = () => {
       />
 
       <Tabs defaultValue="courses" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="courses">Courses</TabsTrigger>
-          <TabsTrigger value="students">Students</TabsTrigger>
-          <TabsTrigger value="revenue">Revenue</TabsTrigger>
+        <TabsList className="w-full sm:w-auto overflow-x-auto flex-nowrap">
+          <TabsTrigger value="courses" className="flex-1 sm:flex-none">Courses</TabsTrigger>
+          <TabsTrigger value="students" className="flex-1 sm:flex-none">Students</TabsTrigger>
+          <TabsTrigger value="revenue" className="flex-1 sm:flex-none">Revenue</TabsTrigger>
         </TabsList>
 
         <TabsContent value="courses">

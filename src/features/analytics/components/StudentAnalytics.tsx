@@ -54,7 +54,7 @@ const StudentAnalytics = () => {
           <CardHeader>
             <CardTitle>Enrollment Trend</CardTitle>
           </CardHeader>
-          <CardContent className="h-[300px]">
+          <CardContent className="h-[250px] md:h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={stats?.enrollment_trend || []}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -77,7 +77,7 @@ const StudentAnalytics = () => {
           <CardHeader>
             <CardTitle>Students by Country</CardTitle>
           </CardHeader>
-          <CardContent className="h-[300px]">
+          <CardContent className="h-[250px] md:h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={stats?.students_by_country || []}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />

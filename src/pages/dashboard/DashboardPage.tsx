@@ -69,7 +69,7 @@ const DashboardPage = () => {
           <CardHeader>
             <CardTitle>Revenue Overview</CardTitle>
           </CardHeader>
-          <CardContent className="h-[300px]">
+          <CardContent className="h-[250px] md:h-[300px]">
             <RevenueChart data={stats?.monthly_revenue || []} />
           </CardContent>
         </Card>

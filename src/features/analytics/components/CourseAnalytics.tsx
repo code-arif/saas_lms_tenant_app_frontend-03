@@ -57,7 +57,7 @@ const CourseAnalytics = () => {
           <CardHeader>
             <CardTitle>Course Status Distribution</CardTitle>
           </CardHeader>
-          <CardContent className="h-[300px]">
+          <CardContent className="h-[250px] md:h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -66,7 +66,7 @@ const CourseAnalytics = () => {
                   cy="50%"
                   labelLine={false}
                   label={({ name, value }: any) => `${name || ''}: ${value || 0}`}
-                  outerRadius={100}
+                  outerRadius={80}
                   fill="#8884d8"
                   dataKey="count"
                 >
@@ -84,7 +84,7 @@ const CourseAnalytics = () => {
           <CardHeader>
             <CardTitle>Top Courses by Revenue</CardTitle>
           </CardHeader>
-          <CardContent className="h-[300px]">
+          <CardContent className="h-[250px] md:h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={stats?.top_courses || []}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />

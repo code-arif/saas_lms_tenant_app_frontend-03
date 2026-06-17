@@ -34,27 +34,27 @@ const BillingHistory = ({ invoices }: BillingHistoryProps) => {
             No invoices yet
           </p>
         ) : (
-          <div className="rounded-md border">
+          <div className="rounded-md border overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Date</TableHead>
                   <TableHead>Amount</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead className="hidden sm:table-cell">Status</TableHead>
                   <TableHead className="text-right">Invoice</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {invoices.map((invoice) => (
                   <TableRow key={invoice.uuid}>
-                    <TableCell>{formatDate(invoice.created_at)}</TableCell>
-                    <TableCell className="font-medium">{formatCurrency(invoice.amount)}</TableCell>
-                    <TableCell>
+                    <TableCell className="whitespace-nowrap">{formatDate(invoice.created_at)}</TableCell>
+                    <TableCell className="font-medium whitespace-nowrap">{formatCurrency(invoice.amount)}</TableCell>
+                    <TableCell className="hidden sm:table-cell">
                       <Badge variant={statusColors[invoice.status] || 'secondary'}>
                         {invoice.status}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-right whitespace-nowrap">
                       {invoice.invoice_url ? (
                         <a 
                           href={invoice.invoice_url} 
@@ -67,9 +67,13 @@ const BillingHistory = ({ invoices }: BillingHistoryProps) => {
                       ) : (
                         <span className="text-muted-foreground text-sm">N/A</span>
                       )}
+                      {/* Show status badge on mobile next to invoice action */}
+                      <Badge variant={statusColors[invoice.status] || 'secondary'} className="sm:hidden ml-2">
+                        {invoice.status}
+                      </Badge>
                     </TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </div>

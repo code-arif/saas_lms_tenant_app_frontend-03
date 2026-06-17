@@ -47,9 +47,7 @@ const Sidebar = () => {
       <aside 
         className={cn(
           "fixed left-0 top-0 z-40 h-screen border-r bg-card transition-all duration-300",
-          collapsed ? "w-20" : "w-64",
-          // Mobile: always show as overlay
-          "max-md:translate-x-0"
+          collapsed ? "md:w-20 max-md:-translate-x-full" : "w-64"
         )}
       >
         <div className="flex h-16 items-center justify-between px-4 border-b">
@@ -58,8 +56,9 @@ const Sidebar = () => {
             onClick={toggleSidebar}
             className="p-2 rounded-md hover:bg-muted"
           >
-            {collapsed ? <ChevronRight size={20} /> : <X size={20} className="md:hidden" />}
+            {collapsed && <ChevronRight size={20} className="hidden md:block" />}
             {!collapsed && <ChevronLeft size={20} className="hidden md:block" />}
+            <X size={20} className="md:hidden" />
           </button>
         </div>
 
@@ -73,8 +72,8 @@ const Sidebar = () => {
                 to={item.href}
                 onClick={() => {
                   // Close sidebar on mobile after navigation
-                  if (window.innerWidth < 768 && !collapsed) {
-                    toggleSidebar();
+                  if (window.innerWidth < 768) {
+                    useUIStore.getState().setSidebarCollapsed(true);
                   }
                 }}
                 className={cn(

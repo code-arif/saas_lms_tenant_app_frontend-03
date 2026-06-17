@@ -26,14 +26,22 @@ const Header = () => {
         >
           <Menu size={20} />
         </Button>
-        <div className="flex w-full max-w-md items-center gap-2 px-3 py-1.5 rounded-md bg-muted border">
-          <Search size={18} className="text-muted-foreground" />
+        <div className="hidden sm:flex w-full max-w-md items-center gap-2 px-3 py-1.5 rounded-md bg-muted border">
+          <Search size={18} className="text-muted-foreground shrink-0" />
           <input 
             type="text" 
-            placeholder="Search courses, students, instructors..." 
+            placeholder="Search courses, students..." 
             className="bg-transparent border-none outline-none text-sm w-full"
           />
         </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="sm:hidden"
+          disabled
+        >
+          <Search size={18} />
+        </Button>
       </div>
 
       <div className="flex items-center gap-2 md:gap-4">

@@ -24,7 +24,7 @@ const RevenueChart = ({ data }: RevenueChartProps) => {
       <CardHeader>
         <CardTitle>Revenue Overview</CardTitle>
       </CardHeader>
-      <CardContent className="h-[300px]">
+      <CardContent className="h-[250px] md:h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />

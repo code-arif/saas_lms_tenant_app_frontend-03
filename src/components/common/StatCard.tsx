@@ -34,8 +34,8 @@ const StatCard = ({ title, value, icon: Icon, trend, isUp, className }: StatCard
               </div>
             )}
           </div>
-          <div className="h-12 w-12 rounded-lg bg-muted flex items-center justify-center">
-            <Icon className="h-6 w-6 text-muted-foreground" />
+          <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg bg-muted flex items-center justify-center shrink-0">
+            <Icon className="h-5 w-5 md:h-6 md:w-6 text-muted-foreground" />
           </div>
         </div>
       </CardContent>

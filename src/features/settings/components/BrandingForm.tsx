@@ -56,7 +56,7 @@ const BrandingForm = ({ settings }: BrandingFormProps) => {
         <CardDescription>Customize your platform's appearance</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2">
             <Label>Logo</Label>
             <div className="relative">
@@ -112,7 +112,7 @@ const BrandingForm = ({ settings }: BrandingFormProps) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2">
             <Label>Primary Color</Label>
             <div className="flex items-center gap-3">

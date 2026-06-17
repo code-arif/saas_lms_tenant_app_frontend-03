@@ -55,7 +55,7 @@ const RevenueAnalytics = () => {
           <CardHeader>
             <CardTitle>Revenue by Month</CardTitle>
           </CardHeader>
-          <CardContent className="h-[300px]">
+          <CardContent className="h-[250px] md:h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={stats?.revenue_by_month || []}>
                 <defs>
@@ -84,7 +84,7 @@ const RevenueAnalytics = () => {
           <CardHeader>
             <CardTitle>Revenue by Course</CardTitle>
           </CardHeader>
-          <CardContent className="h-[300px]">
+          <CardContent className="h-[250px] md:h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={stats?.revenue_by_course || []}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />

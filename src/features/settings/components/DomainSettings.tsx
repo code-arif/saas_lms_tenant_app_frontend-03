@@ -52,14 +52,15 @@ const DomainSettings = ({ settings }: DomainSettingsProps) => {
 
         <div className="space-y-2">
           <Label htmlFor="domain">Custom Domain</Label>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <Input
               id="domain"
               placeholder="learn.yourdomain.com"
               value={domain}
               onChange={(e) => setDomain(e.target.value)}
+              className="flex-1"
             />
-            <Button onClick={handleSubmit} disabled={isUpdatingDomain}>
+            <Button onClick={handleSubmit} disabled={isUpdatingDomain} className="sm:w-auto w-full">
               {isUpdatingDomain ? 'Saving...' : 'Save'}
             </Button>
           </div>
