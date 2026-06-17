@@ -16,7 +16,7 @@ export const useAuth = () => {
       if (response.success) {
         const { token, user } = response.data;
         
-        if (user.role !== 'tenant_admin') {
+        if (user.role !== 'tenant') {
           toast.error('Only tenant administrators can access this application');
           return;
         }
