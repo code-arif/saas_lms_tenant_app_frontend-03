@@ -11,6 +11,7 @@ import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage';
 import ContactAdminPage from '@/pages/auth/ContactAdminPage';
 import DashboardPage from '@/pages/dashboard/DashboardPage';
 import CoursesPage from '@/pages/courses/CoursesPage';
+import CourseCategoriesPage from '@/pages/courses/CourseCategoriesPage';
 import InstructorsPage from '@/pages/instructors/InstructorsPage';
 import StudentsPage from '@/pages/students/StudentsPage';
 import SubscriptionPage from '@/pages/subscription/SubscriptionPage';
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
               {
                 path: 'courses',
                 element: <CoursesPage />,
+              },
+              {
+                path: 'courses/categories',
+                element: <CourseCategoriesPage />,
               },
               {
                 path: 'instructors',

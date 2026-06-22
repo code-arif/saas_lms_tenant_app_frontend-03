@@ -1,5 +1,4 @@
-import { Bell, Search, User, Moon, Sun, Menu, LogOut, Settings } from 'lucide-react';
-import { useTheme } from 'next-themes';
+import { Bell, Search, User, Menu, LogOut, Settings } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth/store/authStore';
 import { useUIStore } from '@/store/uiStore';
@@ -11,13 +10,13 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from '@/components/ui/DropdownMenu';
+import ThemeSwitcher from '@/components/common/ThemeSwitcher';
 import { ROUTES } from '@/constants/routes';
 import { cn } from '@/utils/cn';
 
 const Header = () => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
-  const { theme, setTheme } = useTheme();
   const toggleSidebar = useUIStore((state) => state.toggleSidebar);
   const navigate = useNavigate();
 
@@ -51,15 +50,7 @@ const Header = () => {
       </div>
 
       <div className="flex items-center gap-2 md:gap-4">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-        >
-          <Sun size={18} className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon size={18} className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
+        <ThemeSwitcher />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

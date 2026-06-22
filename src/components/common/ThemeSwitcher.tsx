@@ -1,7 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Palette, Check } from 'lucide-react';
+import { Palette, Check, Sun, Moon, Monitor } from 'lucide-react';
+import { useTheme } from 'next-themes';
 import { cn } from '@/utils/cn';
-import { AnimatePresence, motion } from 'framer-motion';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from '@/components/ui/DropdownMenu';
+import { Button } from '@/components/ui/Button';
 
 interface Theme {
   id: string;
@@ -38,11 +45,20 @@ const setStoredTheme = (themeId: string) => {
   }
 };
 
-const ThemeSwitcher = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeTheme, setActiveTheme] = useState(getStoredTheme);
+type Mode = 'light' | 'dark' | 'system';
 
-  const applyTheme = useCallback((themeId: string) => {
+const MODE_OPTIONS: { mode: Mode; icon: typeof Sun; label: string }[] = [
+  { mode: 'light', icon: Sun, label: 'Light' },
+  { mode: 'dark', icon: Moon, label: 'Dark' },
+  { mode: 'system', icon: Monitor, label: 'System' },
+];
+
+const ThemeSwitcher = () => {
+  const [activeTheme, setActiveTheme] = useState(getStoredTheme);
+  const [open, setOpen] = useState(false);
+  const { theme, setTheme, resolvedTheme } = useTheme();
+
+  const applyColorTheme = useCallback((themeId: string) => {
     const html = document.documentElement;
     // Remove all theme classes
     themes.forEach((t) => html.classList.remove(`theme-${t.id}`));
@@ -56,47 +72,81 @@ const ThemeSwitcher = () => {
 
   useEffect(() => {
     // Apply the stored theme on mount
-    applyTheme(getStoredTheme());
-  }, [applyTheme]);
+    applyColorTheme(getStoredTheme());
+  }, [applyColorTheme]);
 
-  const handleSelect = (themeId: string) => {
-    applyTheme(themeId);
-    setIsOpen(false);
+  const handleColorSelect = (themeId: string) => {
+    applyColorTheme(themeId);
   };
 
   return (
-    <div className="fixed bottom-24 right-6 z-50 flex flex-col items-end gap-3">
-      {/* Theme palette — collapses/expands */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 10 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="flex items-center gap-2 rounded-xl border bg-card p-2.5 shadow-lg"
-          >
-            {themes.map((theme) => {
-              const isActive = activeTheme === theme.id;
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative"
+          aria-label="Theme settings"
+        >
+          <Palette size={18} />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        className="w-[260px] p-2"
+      >
+        {/* Mode selection */}
+        <div className="flex gap-1 rounded-lg bg-muted p-1">
+          {MODE_OPTIONS.map(({ mode, icon: Icon, label }) => {
+            const isActive = theme === mode;
+            return (
+              <button
+                key={mode}
+                onClick={() => {
+                  setTheme(mode);
+                }}
+                className={cn(
+                  'flex flex-1 items-center justify-center gap-1 rounded-md px-2 py-1.5 text-xs font-medium transition-all',
+                  isActive
+                    ? 'bg-background text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+                aria-label={`${label} mode`}
+              >
+                <Icon size={14} />
+                <span>{label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <DropdownMenuSeparator className="my-2" />
+
+        {/* Color theme palette */}
+        <div className="space-y-1.5">
+          <p className="px-1 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+            Accent Color
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {themes.map((t) => {
+              const isActive = activeTheme === t.id;
               return (
                 <button
-                  key={theme.id}
-                  onClick={() => handleSelect(theme.id)}
-                  title={theme.label}
-                  aria-label={`Switch to ${theme.label} theme`}
+                  key={t.id}
+                  onClick={() => handleColorSelect(t.id)}
+                  title={t.label}
+                  aria-label={`Switch to ${t.label} theme`}
                   className={cn(
-                    'relative h-8 w-8 rounded-full transition-all duration-200',
+                    'relative h-7 w-7 rounded-full transition-all duration-200',
                     'hover:scale-110 hover:shadow-md',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
                     isActive && 'scale-110 ring-2 ring-offset-2 ring-card'
                   )}
-                  style={{
-                    backgroundColor: theme.color,
-                  }}
+                  style={{ backgroundColor: t.color }}
                 >
                   {isActive && (
                     <Check
-                      size={14}
+                      size={12}
                       className="absolute inset-0 m-auto text-white drop-shadow-sm"
                       strokeWidth={3}
                     />
@@ -104,28 +154,15 @@ const ThemeSwitcher = () => {
                 </button>
               );
             })}
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
 
-      {/* Toggle button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label={isOpen ? 'Close theme switcher' : 'Open theme switcher'}
-        className={cn(
-          'h-11 w-11 rounded-full',
-          'flex items-center justify-center',
-          'bg-primary text-primary-foreground',
-          'shadow-lg shadow-primary/25',
-          'hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/30',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-          'active:scale-95',
-          'transition-all duration-200'
-        )}
-      >
-        <Palette size={20} />
-      </button>
-    </div>
+          {/* Current theme label */}
+          <p className="px-1 text-[10px] text-muted-foreground">
+            {themes.find((t) => t.id === activeTheme)?.label ?? 'Slate'} · {resolvedTheme === 'dark' ? 'Dark' : 'Light'}
+          </p>
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
