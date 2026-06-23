@@ -35,18 +35,33 @@ import {
   ToggleRight,
   Loader2,
   ChevronRight,
+  ChevronLeft,
+  ChevronsLeft,
+  ChevronsRight,
 } from 'lucide-react';
 import type { CourseCategory } from '../services/courseCategoryService';
 import CategoryCardSkeleton from './CategoryCardSkeleton';
 
+interface PaginationMeta {
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+  from: number;
+  to: number;
+}
+
 interface CourseCategoryTableProps {
   categories: CourseCategory[];
   isLoading: boolean;
+  isFetching?: boolean;
   onEdit: (category: CourseCategory) => void;
   onDelete: (uuid: string) => void;
   onToggleStatus: (uuid: string) => void;
   isDeleting?: boolean;
   isToggling?: boolean;
+  meta?: PaginationMeta | null;
+  onPageChange?: (page: number) => void;
 }
 
 const defaultIcon = (color?: string | null) => (
@@ -96,13 +111,52 @@ const CategoryIcon = ({ category }: { category: CourseCategory }) => {
 const CourseCategoryTable = ({
   categories,
   isLoading,
+  isFetching,
   onEdit,
   onDelete,
   onToggleStatus,
   isDeleting,
   isToggling,
+  meta,
+  onPageChange,
 }: CourseCategoryTableProps) => {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+
+  // Pagination helpers
+  const totalPages = meta?.last_page || 1;
+  const currentPage = meta?.current_page || 1;
+
+  const getPageNumbers = (): (number | 'ellipsis')[] => {
+    const pages: (number | 'ellipsis')[] = [];
+    const maxVisible = 5;
+
+    if (totalPages <= maxVisible + 2) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+      return pages;
+    }
+
+    pages.push(1);
+
+    let start = Math.max(2, currentPage - 1);
+    let end = Math.min(totalPages - 1, currentPage + 1);
+
+    if (currentPage <= 3) {
+      start = 2;
+      end = Math.min(maxVisible, totalPages - 1);
+    }
+
+    if (currentPage >= totalPages - 2) {
+      start = Math.max(2, totalPages - maxVisible + 1);
+      end = totalPages - 1;
+    }
+
+    if (start > 2) pages.push('ellipsis');
+    for (let i = start; i <= end; i++) pages.push(i);
+    if (end < totalPages - 1) pages.push('ellipsis');
+
+    pages.push(totalPages);
+    return pages;
+  };
 
   if (isLoading) {
     return <CategoryCardSkeleton count={5} />;
@@ -286,6 +340,89 @@ const CourseCategoryTable = ({
           </TableBody>
         </Table>
       </div>
+
+      {/* Pagination */}
+      {meta && totalPages > 1 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1 pb-2">
+          <div className="flex items-center gap-2">
+            <p className="text-sm text-muted-foreground">
+              Showing <span className="font-medium">{meta.from}</span> to{" "}
+              <span className="font-medium">{meta.to}</span> of{" "}
+              <span className="font-medium">{meta.total}</span> categories
+            </p>
+            {isFetching && (
+              <Loader2 size={14} className="animate-spin text-muted-foreground" />
+            )}
+          </div>
+
+          <nav className="flex items-center gap-1" aria-label="Pagination">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => onPageChange?.(1)}
+              disabled={currentPage === 1 || isFetching}
+              title="First page"
+            >
+              <ChevronsLeft size={15} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => onPageChange?.(currentPage - 1)}
+              disabled={currentPage === 1 || isFetching}
+              title="Previous page"
+            >
+              <ChevronLeft size={15} />
+            </Button>
+
+            {getPageNumbers().map((page, idx) =>
+              page === 'ellipsis' ? (
+                <span key={`ellipsis-${idx}`} className="px-1 text-muted-foreground">
+                  …
+                </span>
+              ) : (
+                <Button
+                  key={page}
+                  variant={currentPage === page ? 'default' : 'ghost'}
+                  size="sm"
+                  className={`min-w-[32px] h-8 ${
+                    currentPage === page
+                      ? ''
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                  onClick={() => onPageChange?.(page)}
+                  disabled={isFetching}
+                >
+                  {page}
+                </Button>
+              )
+            )}
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => onPageChange?.(currentPage + 1)}
+              disabled={currentPage === totalPages || isFetching}
+              title="Next page"
+            >
+              <ChevronRight size={15} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => onPageChange?.(totalPages)}
+              disabled={currentPage === totalPages || isFetching}
+              title="Last page"
+            >
+              <ChevronsRight size={15} />
+            </Button>
+          </nav>
+        </div>
+      )}
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog

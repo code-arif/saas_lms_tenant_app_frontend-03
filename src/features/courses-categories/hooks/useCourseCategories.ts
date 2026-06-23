@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import {
   courseCategoryService,
@@ -13,6 +13,7 @@ export const useCourseCategories = (params?: any) => {
   const categoriesQuery = useQuery({
     queryKey: ['course-categories', params],
     queryFn: () => courseCategoryService.getAll(params),
+    placeholderData: keepPreviousData,
   });
 
   const treeQuery = useQuery({
@@ -77,6 +78,9 @@ export const useCourseCategories = (params?: any) => {
     categoryTree: treeQuery.data?.data || ([] as CourseCategory[]),
     isTreeLoading: treeQuery.isLoading,
     isLoading: categoriesQuery.isLoading,
+    isFetching: categoriesQuery.isFetching,
+    isRefetching: categoriesQuery.isRefetching,
+    refetch: categoriesQuery.refetch,
     isError: categoriesQuery.isError,
     error: categoriesQuery.error,
     createCategory: createMutation.mutateAsync,
