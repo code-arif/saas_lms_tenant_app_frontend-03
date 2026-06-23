@@ -14,7 +14,6 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import { Textarea } from '@/components/ui/Textarea';
-import { Badge } from '@/components/ui/Badge';
 import { useCourseCategories } from '../hooks/useCourseCategories';
 import type { CourseCategory } from '../services/courseCategoryService';
 import { Loader2 } from 'lucide-react';
@@ -174,37 +173,35 @@ const CourseCategoryModal = ({ open, onOpenChange, category }: CourseCategoryMod
             </p>
           </div>
 
-          {/* Name */}
-          <div className="space-y-2">
-            <Label htmlFor="name">
-              Name <span className="text-destructive">*</span>
-            </Label>
-            <Input
-              id="name"
-              placeholder="e.g. Web Development"
-              {...register('name')}
-              className={errors.name ? 'border-destructive' : ''}
-            />
-            {errors.name && (
-              <p className="text-sm text-destructive">{errors.name.message}</p>
-            )}
-          </div>
+          {/* Name & Slug — side by side */}
+          <div className="flex gap-4">
+            <div className="flex-1 space-y-2">
+              <Label htmlFor="name">
+                Name <span className="text-destructive">*</span>
+              </Label>
+              <Input
+                id="name"
+                placeholder="e.g. Web Development"
+                {...register('name')}
+                className={errors.name ? 'border-destructive' : ''}
+              />
+              {errors.name && (
+                <p className="text-sm text-destructive">{errors.name.message}</p>
+              )}
+            </div>
 
-          {/* Slug */}
-          <div className="space-y-2">
-            <Label htmlFor="slug">Slug</Label>
-            <Input
-              id="slug"
-              placeholder="Auto-generated from name"
-              {...register('slug')}
-              className={errors.slug ? 'border-destructive' : ''}
-            />
-            {errors.slug && (
-              <p className="text-sm text-destructive">{errors.slug.message}</p>
-            )}
-            <p className="text-xs text-muted-foreground">
-              URL-friendly identifier. Auto-generated from name if left empty.
-            </p>
+            <div className="flex-1 space-y-2">
+              <Label htmlFor="slug">Slug</Label>
+              <Input
+                id="slug"
+                placeholder="Auto-generated from name"
+                {...register('slug')}
+                className={errors.slug ? 'border-destructive' : ''}
+              />
+              {errors.slug && (
+                <p className="text-sm text-destructive">{errors.slug.message}</p>
+              )}
+            </div>
           </div>
 
           {/* Description */}
@@ -239,10 +236,10 @@ const CourseCategoryModal = ({ open, onOpenChange, category }: CourseCategoryMod
             </p>
           </div>
 
-          {/* Color Picker */}
-          <div className="space-y-2">
-            <Label htmlFor="color">Color</Label>
-            <div className="flex flex-wrap gap-2">
+          {/* Color Picker — Compact row */}
+          <div className="space-y-1.5">
+            <Label>Color</Label>
+            <div className="flex items-center gap-2 flex-wrap">
               {PRESET_COLORS.map((hex) => (
                 <button
                   key={hex}
@@ -251,9 +248,9 @@ const CourseCategoryModal = ({ open, onOpenChange, category }: CourseCategoryMod
                     setSelectedColor(hex);
                     setValue('color', hex);
                   }}
-                  className={`h-8 w-8 rounded-full border-2 transition-all hover:scale-110 ${
+                  className={`h-7 w-7 rounded-full border-2 transition-all hover:scale-110 ${
                     selectedColor === hex
-                      ? 'border-foreground scale-110 ring-2 ring-offset-2 ring-foreground/30'
+                      ? 'border-foreground scale-110 ring-2 ring-offset-1 ring-foreground/30'
                       : 'border-transparent hover:border-muted-foreground/30'
                   }`}
                   style={{ backgroundColor: hex }}
@@ -266,7 +263,7 @@ const CourseCategoryModal = ({ open, onOpenChange, category }: CourseCategoryMod
                   setSelectedColor('');
                   setValue('color', '');
                 }}
-                className={`h-8 w-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all ${
+                className={`h-7 w-7 rounded-full border-2 flex items-center justify-center text-[10px] font-bold transition-all shrink-0 ${
                   !selectedColor
                     ? 'border-destructive bg-destructive/10 text-destructive'
                     : 'border-input text-muted-foreground hover:border-destructive hover:text-destructive'
@@ -275,31 +272,31 @@ const CourseCategoryModal = ({ open, onOpenChange, category }: CourseCategoryMod
               >
                 ✕
               </button>
-            </div>
-            <div className="flex items-center gap-2 mt-1">
-              <Input
-                id="color"
-                placeholder="#4F46E5"
-                maxLength={7}
-                {...register('color')}
-                className={`w-32 font-mono ${errors.color ? 'border-destructive' : ''}`}
-              />
-              {selectedColor && (
-                <div
-                  className="h-8 w-8 rounded border shrink-0"
-                  style={{ backgroundColor: selectedColor }}
+              <div className="flex items-center gap-1.5 ml-1">
+                <Input
+                  id="color"
+                  placeholder="#4F46E5"
+                  maxLength={7}
+                  {...register('color')}
+                  className={`h-7 w-24 font-mono text-xs ${errors.color ? 'border-destructive' : ''}`}
                 />
-              )}
+                {selectedColor && (
+                  <div
+                    className="h-7 w-7 rounded border shrink-0"
+                    style={{ backgroundColor: selectedColor }}
+                  />
+                )}
+              </div>
             </div>
             {errors.color && (
-              <p className="text-sm text-destructive">{errors.color.message}</p>
+              <p className="text-xs text-destructive">{errors.color.message}</p>
             )}
           </div>
 
-          {/* Sort Order & Active Status */}
-          <div className="flex items-end gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="sort_order">Sort Order</Label>
+          {/* Sort Order & Active Status — Compact inline row */}
+          <div className="flex items-start gap-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="sort_order" className="text-xs">Sort Order</Label>
               <Input
                 id="sort_order"
                 type="number"
@@ -307,38 +304,33 @@ const CourseCategoryModal = ({ open, onOpenChange, category }: CourseCategoryMod
                 max={32767}
                 placeholder="0"
                 {...register('sort_order')}
-                className="w-24"
+                className="w-20 h-8"
               />
-              <p className="text-xs text-muted-foreground">
-                Lower numbers appear first
-              </p>
             </div>
 
-            <div className="space-y-2 flex-1">
-              <Label>Status</Label>
-              <div className="flex items-center gap-3 pt-1">
+            <div className="flex-1 space-y-1.5">
+              <Label className="text-xs">Status</Label>
+              <div className="flex items-center gap-2.5">
                 <button
                   type="button"
-                  onClick={() => setValue('is_active', true)}
-                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+                  role="switch"
+                  aria-checked={watch('is_active') !== false}
+                  onClick={() => setValue('is_active', watch('is_active') === false ? true : false)}
+                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 ${
                     watch('is_active') !== false
-                      ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 ring-2 ring-green-500/50'
-                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                      ? 'bg-green-500'
+                      : 'bg-gray-300 dark:bg-gray-600'
                   }`}
                 >
-                  <Badge variant="success">Active</Badge>
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition-transform duration-200 ease-in-out ${
+                      watch('is_active') !== false ? 'translate-x-[18px]' : 'translate-x-[2px]'
+                    }`}
+                  />
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setValue('is_active', false)}
-                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-                    watch('is_active') === false
-                      ? 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400 ring-2 ring-gray-500/50'
-                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                  }`}
-                >
-                  <Badge variant="secondary">Inactive</Badge>
-                </button>
+                <span className="text-xs font-medium">
+                  {watch('is_active') !== false ? 'Active' : 'Inactive'}
+                </span>
               </div>
             </div>
           </div>
