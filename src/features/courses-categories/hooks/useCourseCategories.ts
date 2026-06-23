@@ -4,6 +4,7 @@ import {
   courseCategoryService,
   type CreateCategoryPayload,
   type UpdateCategoryPayload,
+  type CourseCategory,
 } from '../services/courseCategoryService';
 
 export const useCourseCategories = (params?: any) => {
@@ -12,6 +13,11 @@ export const useCourseCategories = (params?: any) => {
   const categoriesQuery = useQuery({
     queryKey: ['course-categories', params],
     queryFn: () => courseCategoryService.getAll(params),
+  });
+
+  const treeQuery = useQuery({
+    queryKey: ['course-categories', 'tree'],
+    queryFn: () => courseCategoryService.getTree(),
   });
 
   const createMutation = useMutation({
@@ -68,6 +74,8 @@ export const useCourseCategories = (params?: any) => {
   return {
     categories: categoriesQuery.data?.data || [],
     meta: categoriesQuery.data?.meta,
+    categoryTree: treeQuery.data?.data || ([] as CourseCategory[]),
+    isTreeLoading: treeQuery.isLoading,
     isLoading: categoriesQuery.isLoading,
     isError: categoriesQuery.isError,
     error: categoriesQuery.error,
